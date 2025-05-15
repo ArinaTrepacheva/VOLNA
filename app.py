@@ -470,5 +470,4 @@ def main():
     app.register_blueprint(events_api.blueprint)
 
 
-if __name__ == '__main__':
-    main()
+main()

@@ -31,11 +31,13 @@ def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
 
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect("/")
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -48,6 +50,7 @@ def login():
             return redirect("/")
         return render_template('login.html', message="Неправильный логин или пароль", form=form)
     return render_template('login.html', title='Авторизация', form=form)
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
@@ -129,7 +132,6 @@ def addhours(event_id):
         for user_id in ids:
             user = db_sess.query(User).get(user_id)
             if user:
-                # Полностью синхронизированная проверка с функцией hours()
                 completed_events = (user.completed_events or '').strip()
                 completed_list = [e.strip() for e in completed_events.split() if e.strip()]
                 is_completed = str(event_id) in completed_list
@@ -139,7 +141,7 @@ def addhours(event_id):
                     'surname': user.surname,
                     'id': user.id,
                     'completed': is_completed,
-                    'debug_info': {  # Отладочная информация
+                    'debug_info': {
                         'user_id': user.id,
                         'completed_events': user.completed_events,
                         'event_id': event_id,
@@ -151,7 +153,7 @@ def addhours(event_id):
                                data=data,
                                event_id=event_id,
                                event=event,
-                               debug_mode=True)  # Передаем флаг отладки
+                               debug_mode=True)
 
     finally:
         db_sess.close()
@@ -192,6 +194,7 @@ def hours(user_id, event_id):
 
     return redirect(url_for('addhours', event_id=event_id))
 
+
 @app.route("/")
 def index():
     db_sess = db_session.create_session()
@@ -214,6 +217,7 @@ def index():
         })
 
     return render_template("index.html", data=data)
+
 
 @app.route('/respond/<int:event_id>', methods=['POST', 'GET'])
 @login_required
@@ -255,11 +259,9 @@ def respond(event_id):
 
 @app.route('/view_map/<int:event_id>')
 def view_map(event_id):
-    # Конфигурационные ключи
     GEOCODER_API_KEY = "8013b162-6b42-4997-9691-77b7074026e0"
     YANDEX_MAPS_API_KEY = "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13"
 
-    # Получаем событие из БД
     db_sess = db_session.create_session()
     event = db_sess.query(Events).get(event_id)
 
@@ -268,7 +270,6 @@ def view_map(event_id):
         return redirect(url_for('index'))
 
     try:
-        # Запрос к геокодеру
         geocoder_request = (
             f'http://geocode-maps.yandex.ru/1.x/?'
             f'apikey={GEOCODER_API_KEY}&'
@@ -276,16 +277,14 @@ def view_map(event_id):
             f'format=json'
         )
 
-        # Получаем и обрабатываем ответ
         response = requests.get(geocoder_request)
-        response.raise_for_status()  # Проверка на ошибки HTTP
+        response.raise_for_status()
 
         geo_data = response.json()
         feature_member = geo_data["response"]["GeoObjectCollection"]["featureMember"]
 
         if not feature_member:
             flash('Не удалось найти указанное место на карте', 'warning')
-            # Возвращаем шаблон с координатами по умолчанию (например, центр Москвы)
             return render_template(
                 'event_map.html',
                 event=event,
@@ -369,7 +368,6 @@ def addevent():
                     unique_name = f"{int(datetime.datetime.now().timestamp())}_{filename}"
                     upload_dir = os.path.join(current_app.root_path, 'static', 'event_photos')
 
-                    # Создание папки если не существует
                     if not os.path.exists(upload_dir):
                         os.makedirs(upload_dir)
                         print(f"Создана папка: {upload_dir}")
@@ -377,7 +375,6 @@ def addevent():
                     filepath = os.path.join(upload_dir, unique_name)
                     photo.save(filepath)
 
-                    # Двойная проверка сохранения
                     if os.path.exists(filepath):
                         print(f"Файл сохранён: {filepath}")
                         events.photo_filename = unique_name
@@ -395,17 +392,17 @@ def addevent():
                                    form=add_form,
                                    message=f"Ошибка: {str(e)}")
 
-    # Логирование ошибок формы
     if request.method == 'POST' and not add_form.validate():
         current_app.logger.warning(f"Ошибки формы: {add_form.errors}")
 
     return render_template('addevent.html', form=add_form)
 
+
 @app.route('/delete/<int:event_id>')
 @login_required
 def delete(event_id):
     db_sess = db_session.create_session()
-    event = db_sess.query(Events).filter(Events.id==event_id).first()
+    event = db_sess.query(Events).filter(Events.id == event_id).first()
 
     if current_user.id == event.team_leader:
         db_sess.delete(event)
@@ -414,9 +411,11 @@ def delete(event_id):
     else:
         return redirect('/organisation')
 
+
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 @app.route('/upload_avatar', methods=['GET', 'POST'])
 @login_required
@@ -465,29 +464,7 @@ def get_avatar():
         default_data = f.read()
     return Response(default_data, mimetype='image/jpeg')
 
-# @app.route('/update/<int:work_id>', methods=['GET', 'POST'])
-# @login_required
-# def update(work_id):
-#     db_sess = db_session.create_session()
-#     job = db_sess.query(Jobs).filter(Jobs.id == work_id).first()
-#
-#     if current_user.id =laborators.data = job.collaborators
-#             add_form.is_finished.data = job.is_finished
-#
-#         if add_form.validate_on_submit():
-#             job.job = add_form.job.data
-#             job.team_leader = add_form.team_leader.data
-#             job.work_size = add_form.work_size.data
-#             job.collaborators = add_form.collaborators.data
-#             job.is_finished = add_form.is_finished.data
-#             db_sess.commit()
-#             return redirect('/')
-#
-#         return render_template('updatejob.html', title='Редактирование работы', form=add_form)
-#     else:
-#         return 'У вас нет доступа'
-#
-#
+
 def main():
     db_session.global_init("db/volunteers.db")
     app.register_blueprint(events_api.blueprint)

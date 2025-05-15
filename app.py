@@ -468,7 +468,6 @@ def get_avatar():
 def main():
     db_session.global_init("db/volunteers.db")
     app.register_blueprint(events_api.blueprint)
-    app.run()
 
 
 if __name__ == '__main__':

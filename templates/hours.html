@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Часы волонтеров</h1>
+
+    {% if data %}
+    <div class="row">
+        {% for item in data %}
+        <div class="col-md-8 col-lg-6 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title mb-1">{{ item.name }} {{ item.surname }}</h5>
+                        <small class="text-muted">ID: {{ item.id }}</small>
+                    </div>
+
+                    <div>
+                        {% if item.completed %}
+                        <button class="btn btn-outline-success" disabled>
+                            <i class="fas fa-check-circle me-1"></i> Часы добавлены
+                        </button>
+                        {% else %}
+                        <a href="{{ url_for('hours', user_id=item.id, event_id=event_id)}}"
+                           class="btn btn-primary"
+                           title="Добавить {{ event.work_size }} часов">
+                            <i class="fas fa-plus-circle me-1"></i> {{ event.work_size }} ч
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        Нет волонтеров для отображения
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s;
+        border-radius: 8px;
+        border: none;
+    }
+    .card:hover {
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}

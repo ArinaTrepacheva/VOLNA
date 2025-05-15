@@ -1,0 +1,455 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-blue: #1a73e8;
+        --secondary-blue: #4285f4;
+        --accent-blue: #4fc3f7;
+        --light-gray: #f8f9fa;
+        --dark-gray: #343a40;
+    }
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        background-color: white;
+        color: var(--dark-gray);
+        line-height: 1.6;
+        padding-top: 0;
+    }
+
+    h1, h2, h3, h4, h5, h6,
+    .fw-bold {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+    }
+
+    /* Modern Hero Section */
+    .modern-hero {
+        position: relative;
+        height: 100vh;
+        min-height: 700px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        background: white;
+        margin-top: -10px;
+    }
+
+    .hero-container {
+        position: relative;
+        z-index: 3;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .hero-title {
+        font-size: 4.5rem;
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        color: var(--primary-blue);
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        font-weight: 400;
+        color: var(--dark-gray);
+        margin-bottom: 2rem;
+    }
+
+    .hero-shapes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .shape {
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(to right, var(--accent-blue), var(--secondary-blue));
+        opacity: 0.15;
+        filter: blur(20px);
+        animation: float 15s infinite linear;
+    }
+
+    .shape-1 {
+        width: 400px;
+        height: 400px;
+        top: 10%;
+        right: 5%;
+        animation-delay: 0s;
+    }
+
+    .shape-2 {
+        width: 300px;
+        height: 300px;
+        bottom: 15%;
+        left: 8%;
+        animation-delay: 3s;
+        animation-duration: 20s;
+    }
+
+    .shape-3 {
+        width: 250px;
+        height: 250px;
+        top: 40%;
+        left: 15%;
+        animation-delay: 6s;
+        animation-duration: 25s;
+    }
+
+    .shape-4 {
+        width: 350px;
+        height: 350px;
+        bottom: 20%;
+        right: 10%;
+        animation-delay: 2s;
+        animation-duration: 18s;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+            transform: translate(50px, -30px) rotate(90deg);
+        }
+        50% {
+            transform: translate(0, -50px) rotate(180deg);
+        }
+        75% {
+            transform: translate(-50px, -30px) rotate(270deg);
+        }
+        100% {
+            transform: translate(0, 0) rotate(360deg);
+        }
+    }
+
+    /* Features Section */
+    .features-section {
+        padding: 5rem 0;
+        background-color: white;
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+        color: var(--primary-blue);
+        margin-bottom: 1rem;
+    }
+
+    .feature-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        transition: transform 0.3s;
+        height: 100%;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+    }
+
+    /* Stats Section */
+    .stats-section {
+        padding: 4rem 0;
+        background-color: var(--light-gray);
+    }
+
+    .stats-item {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+
+    .stats-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+    }
+
+    /* How It Works Section */
+    .how-it-works {
+        padding: 5rem 0;
+        background-color: white;
+    }
+
+    .step-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        height: 100%;
+    }
+
+    .step-number {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background-color: var(--primary-blue);
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 40px;
+        font-weight: 700;
+        margin-right: 1rem;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .hero-title {
+            font-size: 3.5rem;
+        }
+        .hero-subtitle {
+            font-size: 1.3rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .modern-hero {
+            height: auto;
+            padding: 6rem 0;
+            min-height: auto;
+            margin-top: 0;
+            padding-top: 60px;
+        }
+        .hero-title {
+            font-size: 2.8rem;
+        }
+        .hero-subtitle {
+            font-size: 1.2rem;
+        }
+        .shape {
+            filter: blur(15px);
+        }
+        .shape-1, .shape-2, .shape-3, .shape-4 {
+            width: 200px;
+            height: 200px;
+        }
+    }
+</style>
+
+<!-- Modern Hero Section -->
+<section class="modern-hero">
+    <div class="hero-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+
+    <div class="hero-container">
+        <div class="hero-content">
+            <h1 class="hero-title">Место добрых дел</h1>
+            <p class="hero-subtitle">VOLNA объединяет тех, кто хочет помогать, с теми, кто в этом нуждается. Станьте частью сообщества, меняющего мир к лучшему.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Что такое VOLNA?</h2>
+            <p class="lead text-muted">Инновационная платформа для волонтерства нового поколения</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h4>Поиск волонтеров</h4>
+                    <p>Организаторы могут легко найти добровольцев для своих мероприятий, указав необходимые навыки и возраст в описании</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h4>Учет часов</h4>
+                    <p>Организатор сам проставляет часы нужным волонтерам</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Комьюнити</h4>
+                    <p>Классные и социальнозначимые мероприятия подарят новые знакомства</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="stats-item">
+                    <div class="stats-number">250+</div>
+                    <p>организаций</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-item">
+                    <div class="stats-number">10K</div>
+                    <p>волонтеров</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-item">
+                    <div class="stats-number">500+</div>
+                    <p>мероприятий</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-item">
+                    <div class="stats-number">50K+</div>
+                    <p>волонтерских часов</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how-it-works">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Как работает VOLNA?</h2>
+            <p class="lead text-muted">Простой и понятный процесс для всех участников</p>
+        </div>
+
+        <ul class="nav nav-pills mb-4 justify-content-center" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-volunteer-tab" data-bs-toggle="pill" data-bs-target="#pills-volunteer" type="button">Для волонтеров</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-organizer-tab" data-bs-toggle="pill" data-bs-target="#pills-organizer" type="button">Для организаторов</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-volunteer" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="step-card">
+                            <div class="d-flex align-items-start mb-3">
+                                <span class="step-number">1</span>
+                                <div>
+                                    <h4>Регистрация</h4>
+                                    <p>Создайте профиль, укажите свои данные</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="step-card">
+                            <div class="d-flex align-items-start mb-3">
+                                <span class="step-number">2</span>
+                                <div>
+                                    <h4>Поиск мероприятий</h4>
+                                    <p>Ищите события, которые действительно понравятся</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="step-card">
+                            <div class="d-flex align-items-start mb-3">
+                                <span class="step-number">3</span>
+                                <div>
+                                    <h4>Отклик</h4>
+                                    <p>Подайте заявку на участие в интересующем мероприятии</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="step-card">
+                            <div class="d-flex align-items-start mb-3">
+                                <span class="step-number">4</span>
+                                <div>
+                                    <h4>Участие</h4>
+                                    <p>Посещайте мероприятия, получайте подтвержденные часы</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pills-organizer" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="step-card">
+                            <div class="d-flex align-items-start mb-3">
+                                <span class="step-number">1</span>
+                                <div>
+                                    <h4>Создание мероприятия</h4>
+                                    <p>Заполните форму с описанием события и требованиями</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="step-card">
+                            <div class="d-flex align-items-start mb-3">
+                                <span class="step-number">2</span>
+                                <div>
+                                    <h4>Публикация</h4>
+                                    <p>Ваше мероприятие становится видно волонтерам</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="step-card">
+                            <div class="d-flex align-items-start mb-3">
+                                <span class="step-number">3</span>
+                                <div>
+                                    <h4>Отбор участников</h4>
+                                    <p>Просматривайте заявки и выбирайте волонтеров</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="step-card">
+                            <div class="d-flex align-items-start mb-3">
+                                <span class="step-number">4</span>
+                                <div>
+                                    <h4>Проведение</h4>
+                                    <p>Организуйте мероприятие и отмечайте участников</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

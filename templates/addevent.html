@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title mb-4 text-center">Создание мероприятия</h2>
+
+                    <form action="" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        {{ form.hidden_tag() }}
+                        {{ form.csrf_token }}
+
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    {{ form.event(class="form-control", placeholder=" ") }}
+                                    {{ form.event.label }}
+                                    {% for error in form.event.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    {{ form.discription(class="form-control", placeholder=" ", style="height: 100px") }}
+                                    {{ form.discription.label }}
+                                    {% for error in form.discription.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.work_size(class="form-control", placeholder=" ") }}
+                                    {{ form.work_size.label }}
+                                    {% for error in form.work_size.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.age(class="form-control", placeholder=" ") }}
+                                    {{ form.age.label }}
+                                    {% for error in form.age.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.start_date(class="form-control", placeholder=" ") }}
+                                    {{ form.start_date.label }}
+                                    {% for error in form.start_date.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form.place(class="form-control", placeholder=" ") }}
+                                    {{ form.place.label }}
+                                    {% for error in form.place.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    {{ form.photo.label(class="form-label") }}
+                                    {{ form.photo(class="form-control") }}
+                                    <div class="form-text">Загрузите изображение в формате JPG или PNG</div>
+                                    {% for error in form.photo.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="d-grid">
+                                    {{ form.submit(type="submit", class="btn btn-primary btn-lg") }}
+                                </div>
+                            </div>
+
+                            <!-- Сообщения -->
+                            {% if message %}
+                            <div class="col-md-12">
+                                <div class="alert alert-info mt-3">
+                                    {{ message }}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-floating > label {
+        color: #6c757d;
+    }
+    .form-control:focus ~ label {
+        color: #0d6efd;
+    }
+    .card {
+        border-radius: 10px;
+    }
+</style>
+{% endblock %}

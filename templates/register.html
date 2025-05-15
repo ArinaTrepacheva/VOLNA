@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">Регистрация</h1>
+                    <form action="" method="post">
+                        {{ form.hidden_tag() }}
+                        {{ form.csrf_token }}
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.surname.label(class="form-label") }}
+                                {{ form.surname(class="form-control", placeholder="Фамилия") }}
+                                {% for error in form.surname.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                {{ form.name.label(class="form-label") }}
+                                {{ form.name(class="form-control", placeholder="Имя") }}
+                                {% for error in form.name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.email.label(class="form-label") }}
+                            {{ form.email(class="form-control", type="email", placeholder="example@mail.com") }}
+                            {% for error in form.email.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.password.label(class="form-label") }}
+                                {{ form.password(class="form-control", type="password", placeholder="••••••••") }}
+                                {% for error in form.password.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                {{ form.password_again.label(class="form-label") }}
+                                {{ form.password_again(class="form-control", type="password", placeholder="••••••••") }}
+                                {% for error in form.password_again.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.age.label(class="form-label") }}
+                                {{ form.age(class="form-control", placeholder="Возраст") }}
+                                {% for error in form.age.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                {{ form.phone.label(class="form-label") }}
+                                {{ form.phone(class="form-control", placeholder="+7 (XXX) XXX-XX-XX") }}
+                                {% for error in form.phone.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.region.label(class="form-label") }}
+                            {{ form.region(class="form-control", placeholder="Ваш регион") }}
+                            {% for error in form.region.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            {{ form.submit(type="submit", class="btn btn-primary") }}
+                        </div>
+
+                        {% if message %}
+                            <div class="alert alert-info mt-3 mb-0">{{ message }}</div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

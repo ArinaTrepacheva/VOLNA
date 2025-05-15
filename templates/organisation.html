@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Мои организации</h1>
+
+    {% if events_data %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for data in events_data %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                {% if data.event.photo_filename %}
+                <img src="{{ url_for('static', filename='event_photos/' + data.event.photo_filename) }}"
+                     class="card-img-top"
+                     style="height: 200px; object-fit: cover;"
+                     alt="{{ data.event.event }}"
+                     loading="lazy">
+                {% endif %}
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ data.event.event }}</h5>
+                    <p class="card-text text-muted">{{ data.event.discription }}</p>
+
+                    <div class="mt-auto">
+                        <div class="mb-3">
+                            <h6 class="fw-bold mb-2">Откликнулись:</h6>
+                            {% if data.volunteers %}
+                            <ul class="list-unstyled">
+                                {% for vol in data.volunteers %}
+                                <li class="mb-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="d-block">{{ vol.name }}</span>
+                                            <small class="text-muted">{{ vol.phone }}</small>
+                                        </div>
+                                        <a href="tel:{{ vol.phone }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-phone"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                            <p class="text-muted mb-0">Пока нет откликов</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('delete', event_id=data.event.id) }}"
+                               class="btn btn-outline-danger"
+                               onclick="return confirm('Вы уверены, что хотите удалить это мероприятие?')">
+                                Удалить
+                            </a>
+                            <a href="{{ url_for('addhours', event_id=data.event.id) }}"
+                               class="btn btn-primary">
+                                Проставить часы
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        У вас пока нет созданных мероприятий
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
